@@ -29,6 +29,7 @@ class JsonFetcher:
         self,
         scaleai_script_path: str,
         list_of_task_ids: List[str],
+        logger: logging.Logger,
         destination_path: str = None,
     ):
         self.scaleai_script_path = scaleai_script_path
@@ -40,6 +41,7 @@ class JsonFetcher:
         ]
         self.result_list: List[Tuple[str, str]] = []
         self.destination_path = None
+        self.logger = logger
         if destination_path:
             self.destination_path = Path(destination_path)
             self.destination_path.mkdir(parents=True, exist_ok=True)
@@ -56,37 +58,37 @@ class JsonFetcher:
         stdout, stderr = proc.communicate()
 
         if stdout:
-            subprocess_logger.info(f"stdout: {stdout}")
+            self.logger.info(f"stdout: {stdout}")
         if stderr:
-            subprocess_logger.error(f"stderr: {stderr}")
+            self.logger.error(f"stderr: {stderr}")
 
         return proc.returncode
 
     def log_results(self):
         current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        logging.info(f"Results for {current_time}:")
+        self.logger.info(f"Results for {current_time}:")
         for task_id, result in self.result_list:
-            logging.info(f"Task ID: {task_id}, Result: {result}")
+            self.logger.info(f"Task ID: {task_id}, Result: {result}")
 
     def copy_files(self, destination_path: Path, task_id: str):
-        logging.info(f"Starting to copy files for task_id: {task_id}")
+        self.logger.info(f"Starting to copy files for task_id: {task_id}")
         try:
             source_folder = Path(self.scaleai_script_path) / task_id
             destination_folder = Path(destination_path) / task_id
             if destination_folder.exists():
-                logging.info(
+                self.logger.info(
                     f"Destination folder {destination_folder} exists. Removing it."
                 )
                 shutil.rmtree(destination_folder)
-            logging.info(f"Copying from {source_folder} to {destination_folder}")
+            self.logger.info(f"Copying from {source_folder} to {destination_folder}")
             shutil.copytree(source_folder, destination_folder)
-            logging.info(f"Finished copying files for task_id: {task_id}")
+            self.logger.info(f"Finished copying files for task_id: {task_id}")
         except Exception as e:
-            logging.error(f"Error while copying files for task_id: {task_id}")
-            logging.exception(e)
+            self.logger.error(f"Error while copying files for task_id: {task_id}")
+            self.logger.exception(e)
 
     def fetch_json(self):
-        logging.info("Starting to fetch JSONs")
+        self.logger.info("Starting to fetch JSONs")
         for task_id in tqdm(self.list_of_task_ids, desc="Fetching JSONs"):
             command = [arg.format(task_id=task_id) for arg in self.fetch_command]
             result = self.run_fetch_command(command)
@@ -101,10 +103,10 @@ class JsonFetcher:
                 self.copy_files(self.destination_path, task_id)
 
     def copy_files_without_triggering_scale_api(self):
-        logging.info("Starting to copy files without triggering Scale API")
+        self.logger.info("Starting to copy files without triggering Scale API")
         for task_id in self.list_of_task_ids:
             self.copy_files(self.destination_path, task_id)
-        logging.info("Finished copying files without triggering Scale API")
+        self.logger.info("Finished copying files without triggering Scale API")
 
 
 if __name__ == "__main__":
