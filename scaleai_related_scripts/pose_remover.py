@@ -1,12 +1,6 @@
 from pathlib import Path
 import logging
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
-)
-
-
 def remove_poses_json(base_path: str):
     base_dir = Path(base_path)
     if not base_dir.is_dir():
@@ -22,7 +16,7 @@ def remove_poses_json(base_path: str):
             logging.error(f"Error removing file {poses_file}: {e}")
 
 
-if __name__ == "__main__":
-    # Specify the base path here
-    base_path = "/home/sc62291/stla/gt_to_explore"
-    remove_poses_json(base_path)
+# if __name__ == "__main__":
+#     # Specify the base path here
+#     base_path = "/home/sc62291/stla/gt_to_explore"
+#     remove_poses_json(base_path)
