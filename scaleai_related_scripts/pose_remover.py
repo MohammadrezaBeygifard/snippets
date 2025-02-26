@@ -14,9 +14,3 @@ def remove_poses_json(base_path: str):
             logging.info(f"Removed file: {poses_file}")
         except Exception as e:
             logging.error(f"Error removing file {poses_file}: {e}")
-
-
-# if __name__ == "__main__":
-#     # Specify the base path here
-#     base_path = "/home/sc62291/stla/gt_to_explore"
-#     remove_poses_json(base_path)

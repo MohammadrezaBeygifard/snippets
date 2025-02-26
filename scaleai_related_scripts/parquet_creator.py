@@ -162,28 +162,3 @@ class ParquetCreator:
             response = self.submit_raas_job()
             self.logger.info(f"Response: {json.dumps(response.json(), indent=4)}")
             self.logger.info(f"Status code: {response.status_code}")
-
-
-# if __name__ == "__main__":
-#     logging.basicConfig(level=logging.INFO)
-
-#     args = parse_arguments()
-#     logging.info(f"Input file: {args.input}")
-#     username = os.getenv("USER")
-#     password = args.password
-#     session, start_timestamp, end_timestamp = extract_metadata_from_gt_json(args.input)
-#     data = {
-#         "tags": ["gen3"],
-#         "RPUs": [
-#             {
-#                 "rpu_type": "mPAD",
-#                 "software_version": "sp25_cp60_up1_2025_01_22_c39ffa2f58cdf5ae234da870cf67d01be6043bc0",
-#             }
-#         ],
-#         "session": session,
-#         "loggerStartTime": start_timestamp,
-#         "loggerEndTime": end_timestamp,
-#     }
-#     response = submit_raas_job(username, password, data)
-#     logging.info(f"Response: {json.dumps(response.json(), indent=4)}")
-#     logging.info(f"Status code: {response.status_code}")

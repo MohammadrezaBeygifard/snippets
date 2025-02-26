@@ -79,30 +79,3 @@ class LaneChangeDetectorRunner:
             self.logger.info(json_file)
             command = [arg.format(json_file=json_file) for arg in self.command_raw]
             self.run_command(command)
-
-
-# if __name__ == "__main__":
-#     command_raw = [
-#         "bazel",
-#         "run",
-#         "--config=stla_gcc9",
-#         "//application/adp_fca/tools/eval/examples:object_prediction_gt_example",
-#         "--",
-#         "--json",
-#         "{json_file}",
-#     ]
-
-#     gt_base_path = "/home/sc62291/stla/gt_to_explore"
-#     cwd_ddad = "/home/sc62291/stla/ddad"
-#     json_files = find_json_files(gt_base_path)
-#     # json_files = [
-#     #     "/home/sc62291/stla/gt_to_explore/6740edbdc4d4fb995633b047/6dd5b8da-811f-461e-a772-0192cfd69e0e_1730063865011514772.json"
-#     # ]
-#     for json_file in json_files:
-#         logging.info(json_file)
-#         command = [arg.format(json_file=json_file) for arg in command_raw]
-#         run_command(cwd_ddad, command)
-#     # json_file = "/home/sc62291/stla/gt_to_explore/6740edb637068390b6521594/51573d75-501b-4cdb-acf4-0192d321a72f_1730118482005356832.json"
-#     # command = [arg.format(json_file=json_file) for arg in command]
-#     # cwd_ddad = "/home/sc62291/stla/ddad"
-#     # run_command(cwd_ddad, command)
