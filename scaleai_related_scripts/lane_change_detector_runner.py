@@ -48,7 +48,7 @@ class LaneChangeDetectorRunner:
         self.command_raw = [
             "bazel",
             "run",
-            "--config=stla_gcc9",
+            "--config=gcc9",
             "//application/adp_fca/tools/eval/examples:object_prediction_gt_example",
             "--",
             "--json",
